@@ -1,0 +1,308 @@
+{
+  "schema": 2,
+  "kind": "zfc-data-only-algorithm-policy",
+  "revision": 1,
+  "min_engine_version": "v0.4.19",
+  "fpr": {
+    "time_weight": 1,
+    "drift_weight": 0.001,
+    "velocity_weight": 0.00005,
+    "drift_cap": 1,
+    "wave_speed_factor": 1,
+    "ship_gravity_factor": 6,
+    "robot_press_gravity_factor": -8,
+    "robot_release_gravity_factor": 4,
+    "other_gravity_factor": 4
+  },
+  "arr": {
+    "focus_inputs": 4,
+    "single_digit_cap": 7,
+    "pair_digit_cap": 5,
+    "priority_limit": 64
+  },
+  "pwr": {
+    "memorized_sigma": 2,
+    "visual_sigma": 3.2,
+    "stable_sigma": 1.6
+  },
+  "scripts": {
+    "fpr_score": [
+      "add",
+      [
+        "abs",
+        [
+          "var",
+          "delta"
+        ]
+      ],
+      [
+        "min",
+        1,
+        [
+          "add",
+          [
+            "mul",
+            0.001,
+            [
+              "var",
+              "drift"
+            ]
+          ],
+          [
+            "mul",
+            0.00005,
+            [
+              "var",
+              "velocity"
+            ]
+          ]
+        ]
+      ]
+    ],
+    "fpr_wave_delta": [
+      "mul",
+      [
+        "mul",
+        [
+          "if",
+          [
+            "gt",
+            [
+              "var",
+              "press"
+            ],
+            0
+          ],
+          1,
+          -1
+        ],
+        [
+          "var",
+          "speed"
+        ]
+      ],
+      [
+        "var",
+        "dt"
+      ]
+    ],
+    "arr_cost": [
+      "add",
+      [
+        "var",
+        "cost"
+      ],
+      [
+        "mul",
+        [
+          "var",
+          "digit"
+        ],
+        [
+          "add",
+          1,
+          [
+            "mul",
+            0.2,
+            [
+              "var",
+              "slot"
+            ]
+          ]
+        ]
+      ]
+    ],
+    "pwr_expected_error": [
+      "if",
+      [
+        "eq",
+        [
+          "var",
+          "press"
+        ],
+        0
+      ],
+      [
+        "if",
+        [
+          "gt",
+          [
+            "var",
+            "held"
+          ],
+          0
+        ],
+        [
+          "mul",
+          0.8,
+          [
+            "var",
+            "held_error"
+          ]
+        ],
+        [
+          "if",
+          [
+            "eq",
+            [
+              "var",
+              "policy"
+            ],
+            0
+          ],
+          [
+            "mul",
+            0.48,
+            [
+              "var",
+              "previous"
+            ]
+          ],
+          [
+            "if",
+            [
+              "eq",
+              [
+                "var",
+                "policy"
+              ],
+              1
+            ],
+            [
+              "if",
+              [
+                "ge",
+                [
+                  "var",
+                  "since"
+                ],
+                24
+              ],
+              [
+                "mul",
+                -0.32,
+                [
+                  "var",
+                  "previous"
+                ]
+              ],
+              [
+                "mul",
+                0.48,
+                [
+                  "var",
+                  "previous"
+                ]
+              ]
+            ],
+            [
+              "mul",
+              0.6,
+              [
+                "var",
+                "previous"
+              ]
+            ]
+          ]
+        ]
+      ],
+      [
+        "if",
+        [
+          "eq",
+          [
+            "var",
+            "policy"
+          ],
+          0
+        ],
+        [
+          "mul",
+          0.48,
+          [
+            "var",
+            "previous"
+          ]
+        ],
+        [
+          "if",
+          [
+            "eq",
+            [
+              "var",
+              "policy"
+            ],
+            1
+          ],
+          [
+            "if",
+            [
+              "ge",
+              [
+                "var",
+                "since"
+              ],
+              24
+            ],
+            [
+              "mul",
+              -0.32,
+              [
+                "var",
+                "previous"
+              ]
+            ],
+            [
+              "mul",
+              0.48,
+              [
+                "var",
+                "previous"
+              ]
+            ]
+          ],
+          [
+            "mul",
+            0.6,
+            [
+              "var",
+              "previous"
+            ]
+          ]
+        ]
+      ]
+    ],
+    "pwr_step_cost": [
+      "div",
+      [
+        "mul",
+        [
+          "var",
+          "innovation"
+        ],
+        [
+          "var",
+          "innovation"
+        ]
+      ],
+      [
+        "mul",
+        2,
+        [
+          "mul",
+          [
+            "var",
+            "sigma"
+          ],
+          [
+            "var",
+            "sigma"
+          ]
+        ]
+      ]
+    ]
+  },
+  "ab": {
+    "representative": "upper_median"
+  }
+}
