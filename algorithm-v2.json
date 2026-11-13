@@ -300,6 +300,23 @@
           ]
         ]
       ]
+    ],
+    "arr_plan": [
+      {
+        "offsets": [
+          0
+        ],
+        "max_digit": 7,
+        "reverse": false
+      },
+      {
+        "offsets": [
+          0,
+          1
+        ],
+        "max_digit": 5,
+        "reverse": false
+      }
     ]
   },
   "ab": {
