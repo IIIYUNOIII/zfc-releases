@@ -1,0 +1,19 @@
+name: Publish ZFC v0.4.26
+on:
+  push:
+    branches: [publish/v0.4.26]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Verify the universal package and publish the test release
+        shell: bash
+        run: |
+          asset=xm.frame_window_lab.geode
+          curl --fail --silent --show-error --location "https://raw.githubusercontent.com/$GITHUB_REPOSITORY/$GITHUB_SHA/$asset" --output "$asset"
+          echo "d3803cdaee5be8f4e45f0a0e50e0924d3193a9afbc01e0b5e45dbfa8620194d8  $asset" | sha256sum --check
+          gh release create v0.4.26 "$asset" --repo "$GITHUB_REPOSITORY" --target main --prerelease --title "Zero Frame Counter v0.4.26" --notes "Universal Hitborder test build for Windows x64 and Android ARM32/ARM64."
