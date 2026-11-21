@@ -1,0 +1,19 @@
+name: Publish ZFC installer v0.0.2
+on:
+  push:
+    branches: [publish/installer-v0.0.2]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Verify and publish the standalone .geode installer
+        shell: bash
+        run: |
+          asset="Zero Frame Counter.geode"
+          curl --fail --silent --show-error --location "https://raw.githubusercontent.com/$GITHUB_REPOSITORY/$GITHUB_SHA/Zero%20Frame%20Counter.geode" --output "$asset"
+          echo "df53d4aea4fb32a3d78296b8096d89eb34d9303e19452b5d704f2f045a37ef34  $asset" | sha256sum --check
+          gh release create installer-v0.0.2 "$asset#Zero Frame Counter.geode" --repo "$GITHUB_REPOSITORY" --target main --latest=false --title "Zero Frame Counter (Windows + Android)" --notes "Standalone Geode installer for Windows x64 and Android ARM32/ARM64."
