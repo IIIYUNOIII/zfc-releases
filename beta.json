@@ -1,0 +1,26 @@
+{
+  "assets": {
+    "android32": {
+      "sha256": "d3803cdaee5be8f4e45f0a0e50e0924d3193a9afbc01e0b5e45dbfa8620194d8",
+      "size": 7397905,
+      "url": "https://github.com/IIIYUNOIII/zfc-releases/releases/download/v0.4.26/xm.frame_window_lab.geode"
+    },
+    "android64": {
+      "sha256": "d3803cdaee5be8f4e45f0a0e50e0924d3193a9afbc01e0b5e45dbfa8620194d8",
+      "size": 7397905,
+      "url": "https://github.com/IIIYUNOIII/zfc-releases/releases/download/v0.4.26/xm.frame_window_lab.geode"
+    },
+    "win": {
+      "sha256": "d3803cdaee5be8f4e45f0a0e50e0924d3193a9afbc01e0b5e45dbfa8620194d8",
+      "size": 7397905,
+      "url": "https://github.com/IIIYUNOIII/zfc-releases/releases/download/v0.4.26/xm.frame_window_lab.geode"
+    }
+  },
+  "channel": "beta",
+  "commit": "ead6a1a9dd1a50fe4b0289dd452701094b8a06c2",
+  "gd": "2.2081",
+  "mod_id": "xm.frame_window_lab",
+  "notes": "Hitborder test build for Windows x64 and Android ARM32/ARM64.",
+  "schema": 1,
+  "version": "v0.4.26"
+}
