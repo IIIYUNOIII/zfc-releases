@@ -1,0 +1,24 @@
+name: Publish verified Zero Frame Counter v0.4.27
+on:
+  push:
+    branches: [publish/zfc-v0.4.27]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Verify and publish full mod and standalone installer
+        shell: bash
+        run: |
+          full="xm.frame_window_lab.geode"
+          installer="Zero Frame Counter.geode"
+          raw="https://raw.githubusercontent.com/$GITHUB_REPOSITORY/$GITHUB_SHA"
+          curl --fail --silent --show-error --location "$raw/$full" --output "$full"
+          curl --fail --silent --show-error --location "$raw/Zero%20Frame%20Counter.geode" --output "$installer"
+          echo "ff879a4058d392fa7a4ec1a303a997436caec0991fa8d91b84140fbb007a5802  $full" | sha256sum --check
+          echo "06ed39bde6e13669b88d1d74dc6d84121183b4bef1b5cb5b0631b1999cd3dd7e  $installer" | sha256sum --check
+          gh release create v0.4.27 "$full" --repo "$GITHUB_REPOSITORY" --target main --prerelease --title "Zero Frame Counter v0.4.27" --notes "Android Downloads exports, native analysis recovery, and direct access to ESC Tools."
+          gh release create installer-v0.0.3 "$installer#Zero Frame Counter.geode" --repo "$GITHUB_REPOSITORY" --target main --latest=false --title "Zero Frame Counter Installer v0.0.3" --notes "Shorter installer prompts and automatic restart after verified installation."
