@@ -1,26 +1,26 @@
 {
+  "schema": 1,
+  "mod_id": "xm.frame_window_lab",
+  "gd": "2.2081",
+  "channel": "beta",
+  "version": "v0.4.27",
+  "commit": "4dd2820ab6d8be1ce0f0d1d6e97cf40e872cae5f",
+  "notes": "Android Downloads exports, analysis recovery, and installer restart improvements.",
   "assets": {
+    "win": {
+      "url": "https://github.com/IIIYUNOIII/zfc-releases/releases/download/v0.4.27/xm.frame_window_lab.geode",
+      "sha256": "ff879a4058d392fa7a4ec1a303a997436caec0991fa8d91b84140fbb007a5802",
+      "size": 7407892
+    },
     "android32": {
-      "sha256": "d3803cdaee5be8f4e45f0a0e50e0924d3193a9afbc01e0b5e45dbfa8620194d8",
-      "size": 7397905,
-      "url": "https://github.com/IIIYUNOIII/zfc-releases/releases/download/v0.4.26/xm.frame_window_lab.geode"
+      "url": "https://github.com/IIIYUNOIII/zfc-releases/releases/download/v0.4.27/xm.frame_window_lab.geode",
+      "sha256": "ff879a4058d392fa7a4ec1a303a997436caec0991fa8d91b84140fbb007a5802",
+      "size": 7407892
     },
     "android64": {
-      "sha256": "d3803cdaee5be8f4e45f0a0e50e0924d3193a9afbc01e0b5e45dbfa8620194d8",
-      "size": 7397905,
-      "url": "https://github.com/IIIYUNOIII/zfc-releases/releases/download/v0.4.26/xm.frame_window_lab.geode"
-    },
-    "win": {
-      "sha256": "d3803cdaee5be8f4e45f0a0e50e0924d3193a9afbc01e0b5e45dbfa8620194d8",
-      "size": 7397905,
-      "url": "https://github.com/IIIYUNOIII/zfc-releases/releases/download/v0.4.26/xm.frame_window_lab.geode"
+      "url": "https://github.com/IIIYUNOIII/zfc-releases/releases/download/v0.4.27/xm.frame_window_lab.geode",
+      "sha256": "ff879a4058d392fa7a4ec1a303a997436caec0991fa8d91b84140fbb007a5802",
+      "size": 7407892
     }
-  },
-  "channel": "beta",
-  "commit": "ead6a1a9dd1a50fe4b0289dd452701094b8a06c2",
-  "gd": "2.2081",
-  "mod_id": "xm.frame_window_lab",
-  "notes": "Hitborder test build for Windows x64 and Android ARM32/ARM64.",
-  "schema": 1,
-  "version": "v0.4.26"
+  }
 }
