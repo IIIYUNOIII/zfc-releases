@@ -1,0 +1,21 @@
+name: Publish ZFC v0.4.30
+on:
+  push:
+    branches: [publish/zfc-v0.4.30]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Publish verified universal package
+        shell: bash
+        run: |
+          set -euo pipefail
+          asset="staging/v0.4.30/xm.frame_window_lab.geode"
+          mkdir -p "$(dirname "$asset")"
+          curl -fsSL --retry 3 "https://raw.githubusercontent.com/$GITHUB_REPOSITORY/$GITHUB_SHA/$asset" -o "$asset"
+          echo "e4c649041a63070d4436217de3d0cf01a4937b6a478f14fd2b0595e2c3251ac1  $asset" | sha256sum -c -
+          gh release create v0.4.30 "$asset" --repo "$GITHUB_REPOSITORY" --target main --prerelease --title "Zero Frame Counter v0.4.30" --notes "Native Wave continuation evidence, audited contact cutoffs, and opt-in developer diagnostics. Universal for Windows and Android. Developer reports require a configured endpoint."
