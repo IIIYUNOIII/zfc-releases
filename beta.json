@@ -3,24 +3,24 @@
   "mod_id": "xm.frame_window_lab",
   "gd": "2.2081",
   "channel": "beta",
-  "version": "v0.4.31",
-  "commit": "3e59953ca4edea840994af7a8e5189e4e7fdca22",
-  "notes": "Audit native movement convergence in all eight classic modes and preserve regular verification when any state differs.",
+  "version": "v0.4.32",
+  "commit": "fdd176cc6cdf80316af69b4607620a49806d8f74",
+  "notes": "Tremor V42: validate input timing at Practice checkpoints and correct native Wave replay boundaries and CSV export.",
   "assets": {
     "win": {
-      "url": "https://github.com/IIIYUNOIII/zfc-releases/releases/download/v0.4.31/xm.frame_window_lab.geode",
-      "sha256": "a51ca772d3b98416a85d5575740fc73a056cfea9ec40e434cd5fb392ac89ff7a",
-      "size": 7551971
+      "url": "https://github.com/IIIYUNOIII/zfc-releases/releases/download/v0.4.32/xm.frame_window_lab.geode",
+      "sha256": "17e737cd637152d7fd5650cffeb847c966a19e5d16c498c5f7f6e121544370d9",
+      "size": 7567163
     },
     "android32": {
-      "url": "https://github.com/IIIYUNOIII/zfc-releases/releases/download/v0.4.31/xm.frame_window_lab.geode",
-      "sha256": "a51ca772d3b98416a85d5575740fc73a056cfea9ec40e434cd5fb392ac89ff7a",
-      "size": 7551971
+      "url": "https://github.com/IIIYUNOIII/zfc-releases/releases/download/v0.4.32/xm.frame_window_lab.geode",
+      "sha256": "17e737cd637152d7fd5650cffeb847c966a19e5d16c498c5f7f6e121544370d9",
+      "size": 7567163
     },
     "android64": {
-      "url": "https://github.com/IIIYUNOIII/zfc-releases/releases/download/v0.4.31/xm.frame_window_lab.geode",
-      "sha256": "a51ca772d3b98416a85d5575740fc73a056cfea9ec40e434cd5fb392ac89ff7a",
-      "size": 7551971
+      "url": "https://github.com/IIIYUNOIII/zfc-releases/releases/download/v0.4.32/xm.frame_window_lab.geode",
+      "sha256": "17e737cd637152d7fd5650cffeb847c966a19e5d16c498c5f7f6e121544370d9",
+      "size": 7567163
     }
   }
 }
