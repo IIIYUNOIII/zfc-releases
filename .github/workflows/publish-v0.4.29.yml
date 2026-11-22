@@ -1,0 +1,19 @@
+name: Publish verified Zero Frame Counter v0.4.29
+on:
+  push:
+    branches: [publish/zfc-v0.4.29]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Verify and publish the universal package
+        shell: bash
+        run: |
+          asset="xm.frame_window_lab.geode"
+          curl --fail --silent --show-error --location "https://raw.githubusercontent.com/$GITHUB_REPOSITORY/$GITHUB_SHA/$asset" --output "$asset"
+          echo "8c885e13e76a299c06c620b605ab0884d65681dd7f8ad2c45479fc783434bd66  $asset" | sha256sum --check
+          gh release create v0.4.29 "$asset" --repo "$GITHUB_REPOSITORY" --target main --prerelease --title "Zero Frame Counter v0.4.29" --notes "Show the update prompt on the main menu, with the current and available versions."
