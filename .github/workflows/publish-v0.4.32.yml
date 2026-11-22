@@ -1,0 +1,32 @@
+name: Publish Zero Frame Counter v0.4.32
+
+on:
+  push:
+    branches:
+      - publish/zfc-v0.4.32
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Publish and verify universal package
+        shell: bash
+        run: |
+          set -euo pipefail
+          asset=xm.frame_window_lab.geode
+          curl --fail --silent --show-error --location --retry 3 \
+            --output "$asset" \
+            "https://raw.githubusercontent.com/$GITHUB_REPOSITORY/$GITHUB_SHA/staging/v0.4.32/xm.frame_window_lab.geode"
+          printf '%s  %s\n' '17e737cd637152d7fd5650cffeb847c966a19e5d16c498c5f7f6e121544370d9' "$asset" | sha256sum --check -
+          gh release create 'v0.4.32' "$asset" --repo "$GITHUB_REPOSITORY" \
+            --target main --prerelease --title 'Zero Frame Counter v0.4.32' \
+            --notes 'Tremor V42: validate input timing at Practice checkpoints and correct native Wave replay boundaries and CSV export.'
+          gh release download 'v0.4.32' --pattern "$asset" \
+            --repo "$GITHUB_REPOSITORY" --dir verified-download
+          cmp "$asset" "verified-download/$asset"
