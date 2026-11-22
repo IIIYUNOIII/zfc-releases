@@ -3,24 +3,24 @@
   "mod_id": "xm.frame_window_lab",
   "gd": "2.2081",
   "channel": "beta",
-  "version": "v0.4.29",
-  "commit": "65622f442d77a7725fb12dcfe55f9d144bfa0fbe",
-  "notes": "Show a clear update prompt on the main menu, with the version and download or dismiss buttons.",
+  "version": "v0.4.30",
+  "commit": "6109fa8b89719005b3bd3fe96d40fa3dd47379dc",
+  "notes": "Preserve recorded-route Wave death evidence, expand native successor probes, add matched contact sections and developer diagnostics.",
   "assets": {
     "win": {
-      "url": "https://github.com/IIIYUNOIII/zfc-releases/releases/download/v0.4.29/xm.frame_window_lab.geode",
-      "sha256": "8c885e13e76a299c06c620b605ab0884d65681dd7f8ad2c45479fc783434bd66",
-      "size": 7398449
+      "url": "https://github.com/IIIYUNOIII/zfc-releases/releases/download/v0.4.30/xm.frame_window_lab.geode",
+      "sha256": "e4c649041a63070d4436217de3d0cf01a4937b6a478f14fd2b0595e2c3251ac1",
+      "size": 7507000
     },
     "android32": {
-      "url": "https://github.com/IIIYUNOIII/zfc-releases/releases/download/v0.4.29/xm.frame_window_lab.geode",
-      "sha256": "8c885e13e76a299c06c620b605ab0884d65681dd7f8ad2c45479fc783434bd66",
-      "size": 7398449
+      "url": "https://github.com/IIIYUNOIII/zfc-releases/releases/download/v0.4.30/xm.frame_window_lab.geode",
+      "sha256": "e4c649041a63070d4436217de3d0cf01a4937b6a478f14fd2b0595e2c3251ac1",
+      "size": 7507000
     },
     "android64": {
-      "url": "https://github.com/IIIYUNOIII/zfc-releases/releases/download/v0.4.29/xm.frame_window_lab.geode",
-      "sha256": "8c885e13e76a299c06c620b605ab0884d65681dd7f8ad2c45479fc783434bd66",
-      "size": 7398449
+      "url": "https://github.com/IIIYUNOIII/zfc-releases/releases/download/v0.4.30/xm.frame_window_lab.geode",
+      "sha256": "e4c649041a63070d4436217de3d0cf01a4937b6a478f14fd2b0595e2c3251ac1",
+      "size": 7507000
     }
   }
 }
