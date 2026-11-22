@@ -1,0 +1,21 @@
+name: Publish ZFC v0.4.31
+on:
+  push:
+    branches: [publish/zfc-v0.4.31]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Publish verified universal package
+        shell: bash
+        run: |
+          set -euo pipefail
+          asset="staging/v0.4.31/xm.frame_window_lab.geode"
+          mkdir -p "$(dirname "$asset")"
+          curl -fsSL --retry 3 "https://raw.githubusercontent.com/$GITHUB_REPOSITORY/$GITHUB_SHA/$asset" -o "$asset"
+          echo "a51ca772d3b98416a85d5575740fc73a056cfea9ec40e434cd5fb392ac89ff7a  $asset" | sha256sum -c -
+          gh release create v0.4.31 "$asset" --repo "$GITHUB_REPOSITORY" --target main --prerelease --title "Zero Frame Counter v0.4.31" --notes "Native convergence checks for all eight classic modes with regular-physics fallback. Universal package for Windows x64 and Android ARM32/ARM64."
