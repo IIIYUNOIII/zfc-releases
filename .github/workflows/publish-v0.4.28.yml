@@ -1,0 +1,19 @@
+name: Publish verified Zero Frame Counter v0.4.28
+on:
+  push:
+    branches: [publish/zfc-v0.4.28]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Verify and publish the universal package
+        shell: bash
+        run: |
+          asset="xm.frame_window_lab.geode"
+          curl --fail --silent --show-error --location "https://raw.githubusercontent.com/$GITHUB_REPOSITORY/$GITHUB_SHA/$asset" --output "$asset"
+          echo "b13baba5097539e1cc0220749486edb26e2b9aa2fc3f2db438ad4b611ce1e108  $asset" | sha256sum --check
+          gh release create v0.4.28 "$asset" --repo "$GITHUB_REPOSITORY" --target main --prerelease --title "Zero Frame Counter v0.4.28" --notes "Practice checkpoint replay recovery starts in a fresh native level."
