@@ -1,0 +1,27 @@
+name: Publish ZFC Free installer
+on:
+  push:
+    branches: [free-installer-v0.0.4]
+    paths: [installer/Zero-Frame-Counter.geode]
+permissions:
+  contents: write
+concurrency:
+  group: zfc-free-installer-v0-0-4
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish verified installer
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          installer="$RUNNER_TEMP/Zero-Frame-Counter.geode"
+          curl --fail --location --show-error --silent --retry 3 \
+            "https://raw.githubusercontent.com/$GITHUB_REPOSITORY/$GITHUB_SHA/installer/Zero-Frame-Counter.geode" \
+            --output "$installer"
+          printf '%s  %s\n' '4f314707e913e8a57d93727efb3464256c6684defb559c04e25ba58c1f36fb28' "$installer" | sha256sum --check -
+          gh release create zfc-free-installer-v0.0.4 "$installer" \
+            --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --prerelease --latest=false --title 'Zero Frame Counter Free Installer v0.0.4' \
+            --notes 'Windows x64 and Android ARM32/ARM64 installer for Geometry Dash 2.2081 and Geode 5.11.1. Download Zero-Frame-Counter.geode.'
