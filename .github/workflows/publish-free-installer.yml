@@ -1,12 +1,12 @@
 name: Publish ZFC Free installer
 on:
   push:
-    branches: [free-installer-v0.0.5]
+    branches: [free-installer-v0.0.6]
     paths: [installer/Zero-Frame-Counter.geode]
 permissions:
   contents: write
 concurrency:
-  group: zfc-free-installer-v0-0-5
+  group: zfc-free-installer-v0-0-6
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -20,8 +20,8 @@ jobs:
           curl --fail --location --show-error --silent --retry 3 \
             "https://raw.githubusercontent.com/$GITHUB_REPOSITORY/$GITHUB_SHA/installer/Zero-Frame-Counter.geode" \
             --output "$installer"
-          printf '%s  %s\n' '5836dd89396543c2f15ca6f7899bb34fa497a845176098e823f72445d8ac2879' "$installer" | sha256sum --check -
-          gh release create zfc-free-installer-v0.0.5 "$installer" \
+          printf '%s  %s\n' '5e1e1af307c0f093b8dfaf300d895e74715de4dfcf8ca21c28fb8338ac76fe69' "$installer" | sha256sum --check -
+          gh release create zfc-free-installer-v0.0.6 "$installer" \
             --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
-            --prerelease --latest=false --title 'Zero Frame Counter v0.0.5' \
+            --prerelease --latest=false --title 'Zero Frame Counter v0.0.6' \
             --notes 'Windows와 Android용 통합 설치기야. Zero-Frame-Counter.geode를 Geode에 추가하고 게임 안에서 다운로드를 누르면 돼. Geometry Dash 2.2081 · Geode 5.11.1.'
