@@ -1,22 +1,21 @@
 {
   "versions": {
-    "2.2091": {
+    "2.2081": {
       "body": {
         "version": "v0.4.33-beta.6",
-        "size": 29974173,
-        "sha256": "8f2ca5c2750120793e59cd18e456b9089d0cd5dbcac4286b88d81f37b0f055d8",
+        "size": 29292482,
+        "sha256": "eb57dd7f6395b4e19a015add2cfcbc1dfa604f293747df0b35ee9ac4f5dff532",
         "parts": [
-          "6fedcd588083d1dc61a1821e3b4e2cec8bb92ab85ede3eed0f77cd49e76b08a6",
-          "ce2ced8c66bae9f13e47f7cc98112eec03e4e8ddd8c78a4d04e6ab371ded0a7e",
-          "efbe581f877d5ef994ba5810206ca887a009a174196442f3ea30eb8abf2e124d",
-          "4b33eb7a8d9f648ca5775ecfe7910469c61872e904e985fe8644cc72c577195d",
-          "e0677b7b5461f981f01b83ab1e01cc9bbedd82658189d42477925ebb27ed43b4",
-          "3a6779597622e503fb4948ddcfa7cefb7df0b1d2a081287ccab36cbc21e84868",
-          "d013a3c42fd46e78f35f0cb4bd30d98c1d59856a4e3ed000a2e8d7b8d7b38baa"
+          "0c30123ddeb4dc93f017dfa6d55c7deeb0f7c4c77e825378acb1080788845ec7",
+          "253fe7731a3c9af9a8bf69398b5ff9a0d4b72f37bb06c2ddcf09a24adb72009b",
+          "f8d4d46257bb82e657af8f58c0c83f48f8202f999b9f2ed1031bb6269db2e75e",
+          "17cfed98694a1f9dd42821aea78c31d230678bcd8fd6ea62eceef27b1dcb3254",
+          "fa7983df6be9dffb8347213b1a7368ab03511c6882770cabed2a9d692020deea",
+          "0d232e686e94b11d82350a0e7692d4729540aba74bbc3b0e9af9ddd98fb6e32c"
         ],
         "base_plan": [
           {
-            "literal": 6856927
+            "literal": 6175236
           },
           {
             "offset": 6154948,
@@ -113,16 +112,14 @@
       },
       "installer": {
         "version": "v0.0.7",
-        "size": 3835440,
-        "sha256": "9b770ca239f8c461845f7909b0393c3ff142678c8e287d8781a6aea8d3063430",
+        "size": 3101679,
+        "sha256": "e350fabd85bd1c03d8e433c09e78c084b4c5f168b63a0e2336b07751eb64618e",
         "parts": [
-          "c87464c73032300346d11ce0a0739f09c64d83d7bde30dfecdecc1f28b1e8529",
-          "cdd60a88c0ac2fef7fd8bb485d8f78648983fab3c0c5480e533359d851806294",
-          "4debcb587cf1fb967b9e580fc232b91b5266aa636a8ef1826e307826a2377c5e",
-          "085fdb492b3f1b0048e02231540ae68f00d3ba6d49891cca0fac2fe07941ce1e"
+          "6abee3c13fbbb29dcc03635269193369d8a47cba57883c6e0a2a3a44e4b4036d",
+          "db991863739b2cf50a5452ee74d552c573d43fbcfd5a7bec88382f03f37fee6b",
+          "c1839905b851518d59e0eaac9c89d3019469bd66c21d0b803f3ee97fe7a137f2"
         ]
       }
     }
-  },
-  "assembly_revision": 2
+  }
 }
