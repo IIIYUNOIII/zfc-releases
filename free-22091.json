@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "channel": "free",
+  "mod_id": "xm.frame_window_lab",
+  "gd": "2.2091",
+  "version": "v0.4.33-beta.6",
+  "asset_commit": "cf77097c6fc460843f5fd3dab14ee58996b46bb6",
+  "asset": {
+    "url": "https://raw.githubusercontent.com/IIIYUNOIII/zfc-releases/cf77097c6fc460843f5fd3dab14ee58996b46bb6/free-22091/xm.frame_window_lab.geode",
+    "sha256": "8f2ca5c2750120793e59cd18e456b9089d0cd5dbcac4286b88d81f37b0f055d8",
+    "size": 29974173
+  }
+}
