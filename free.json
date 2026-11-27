@@ -3,11 +3,11 @@
   "channel": "free",
   "mod_id": "xm.frame_window_lab",
   "gd": "2.2081",
-  "version": "v0.4.33-beta.4",
-  "asset_commit": "c7265cbed9fb31aee41194e45b6f102bd1420910",
+  "version": "v0.4.33-beta.5",
+  "asset_commit": "bbcfb1e242cc8697484c366b2f2bb0b63626f18c",
   "asset": {
-    "url": "https://raw.githubusercontent.com/IIIYUNOIII/zfc-releases/c7265cbed9fb31aee41194e45b6f102bd1420910/free/xm.frame_window_lab.geode",
-    "sha256": "a3019ff0cbaa9242593271695356885dce0fd49b50f83501aa63e773f60c271e",
-    "size": 25890536
+    "url": "https://raw.githubusercontent.com/IIIYUNOIII/zfc-releases/bbcfb1e242cc8697484c366b2f2bb0b63626f18c/free/xm.frame_window_lab.geode",
+    "sha256": "0e9343d32dc0249139799177df3647002a513ecb32d07500925401a01983f429",
+    "size": 29263560
   }
 }
