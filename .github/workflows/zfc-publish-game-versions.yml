@@ -24,9 +24,9 @@ jobs:
               assert gd in ('2.2081','2.2091')
               for edition, item in rows.items():
                   assert edition in ('body','installer')
-                  base=pathlib.Path('free') if gd=='2.2081' else pathlib.Path('free-22091')
+                  folder=pathlib.Path('free') if gd=='2.2081' else pathlib.Path('free-22091')
                   stem='Zero-Frame-Counter-'+gd
-                  target=(base/'xm.frame_window_lab.geode') if edition=='body' else pathlib.Path('installer')/(stem+'.geode')
+                  target=(folder/'xm.frame_window_lab.geode') if edition=='body' else pathlib.Path('installer')/(stem+'.geode')
                   target.parent.mkdir(exist_ok=True)
                   payload=io.BytesIO()
                   for i, digest in enumerate(item['parts']):
