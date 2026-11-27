@@ -1,0 +1,23 @@
+name: Geode codegen for 2.2091
+on:
+  push:
+    branches: [geode-6-sdk-cache]
+permissions:
+  contents: read
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          set -eo pipefail
+          mkdir -p Broma
+          curl -fsSL --retry 3 https://codeload.github.com/geode-sdk/Broma/tar.gz/0a1e9f0 | tar -xz --strip-components=1 -C Broma
+          tar -czf Broma.tgz Broma
+          curl -fsSL --retry 3 https://github.com/geode-sdk/bindings/releases/download/codegen/geode-codegen-linux -o Codegen
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Geode-6-codegen
+          path: |
+            Codegen
+            Broma.tgz
+          retention-days: 2
