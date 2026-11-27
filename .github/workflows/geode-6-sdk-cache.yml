@@ -1,0 +1,45 @@
+name: Cache upstream Geode 6 build dependencies
+on:
+  push:
+    branches: [geode-6-sdk-cache]
+permissions:
+  contents: read
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Download official SDK and libraries
+        run: |
+          set -euo pipefail
+          mkdir -p kit
+          fetch() {
+            mkdir -p "kit/$1"
+            curl -fsSL --retry 3 "https://codeload.github.com/$2/tar.gz/$3" | tar -xz --strip-components=1 -C "kit/$1"
+          }
+          fetch sdk geode-sdk/geode refs/tags/v6.0.0 &
+          fetch bindings geode-sdk/bindings 44d25b48d169a19ce893018ad5f80b6b003d7d79 &
+          fetch result geode-sdk/result 1668d22 &
+          fetch json geode-sdk/json refs/tags/v4.1.0 &
+          fetch nontype_functional geode-sdk/nontype_functional 6d1d08c &
+          fetch fmt fmtlib/fmt refs/tags/12.2.0 &
+          fetch asp2 dankmeme01/asp2 refs/tags/v1.6.4 &
+          fetch arc dankmeme01/arc refs/tags/v1.6.6 &
+          fetch TulipHook geode-sdk/TulipHook 50e729f &
+          for job in $(jobs -p); do wait "$job"; done
+          mkdir -p kit/sdk/bin/6.0.0
+          for target in win android64 android32; do
+            curl -fsSL --retry 3 "https://github.com/geode-sdk/geode/releases/download/v6.0.0/geode-v6.0.0-$target.zip" -o "$target.zip"
+            unzip -j "$target.zip" '*.lib' '*.so' -d kit/sdk/bin/6.0.0 -o || true
+          done
+          find kit/sdk/bin -type f -printf '%f %s\n'
+          test -f kit/sdk/bin/6.0.0/Geode.lib
+          test -f kit/sdk/bin/6.0.0/Geode.android64.so
+          test -f kit/sdk/bin/6.0.0/Geode.android32.so
+          tar -czf SDK-kit.tgz kit
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Geode-6-sdk-kit
+          path: SDK-kit.tgz
+          compression-level: 0
+          retention-days: 2
