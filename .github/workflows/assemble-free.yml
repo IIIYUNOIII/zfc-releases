@@ -1,0 +1,55 @@
+name: Assemble verified ZFC Free package
+on:
+  push:
+    branches: [free-preview]
+    paths: ['.free-upload/request.json']
+permissions:
+  contents: write
+concurrency:
+  group: free-preview-package
+  cancel-in-progress: false
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: free-preview
+      - name: Assemble and verify exact game package
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, pathlib, zipfile
+          root = pathlib.Path('.free-upload')
+          request = json.loads((root/'request.json').read_text())
+          out = pathlib.Path('free/xm.frame_window_lab.geode')
+          out.parent.mkdir(exist_ok=True)
+          with out.open('wb') as dest:
+              for index, digest in enumerate(request['parts']):
+                  data = (root/f'part-{index:03}.bin').read_bytes()
+                  assert hashlib.sha256(data).hexdigest() == digest
+                  dest.write(data)
+          assert out.stat().st_size == request['size']
+          assert hashlib.sha256(out.read_bytes()).hexdigest() == request['sha256']
+          with zipfile.ZipFile(out) as archive:
+              assert archive.testzip() is None
+              mod = json.loads(archive.read('mod.json'))
+              assert mod['id'] == 'xm.frame_window_lab' and mod['name'] == 'Zero Frame Counter Free'
+              assert mod['version'] == request['version'] and mod['gd'] == {'win':'2.2081','android':'2.2081'}
+              for name in ('xm.frame_window_lab.dll','xm.frame_window_lab.android32.so','xm.frame_window_lab.android64.so'):
+                  assert name in archive.namelist()
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add free/xm.frame_window_lab.geode
+          git diff --cached --quiet || git commit -m 'Store verified ZFC Free universal package'
+          python3 - <<'PY'
+          import json, pathlib, subprocess
+          r=json.loads(pathlib.Path('.free-upload/request.json').read_text())
+          commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
+          url=f'https://raw.githubusercontent.com/IIIYUNOIII/zfc-releases/{commit}/free/xm.frame_window_lab.geode'
+          feed={'schema':1,'channel':'free','mod_id':'xm.frame_window_lab','gd':'2.2081','version':r['version'],'asset_commit':commit,'asset':{'url':url,'sha256':r['sha256'],'size':r['size']}}
+          pathlib.Path('free.json').write_text(json.dumps(feed,indent=2)+'\n')
+          PY
+          git add free.json
+          git diff --cached --quiet || git commit -m 'Point Free installer at the verified package'
+          git push origin HEAD:free-preview
