@@ -1,0 +1,105 @@
+name: Publish verified ZFC builds by game version
+on:
+  push:
+    branches: [free-preview]
+    paths: ['.zfc-matrix/request.json']
+permissions:
+  contents: write
+concurrency:
+  group: free-preview-package
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Assemble and verify platform packages
+        run: |
+          python3 - <<'PY'
+          import hashlib, io, json, pathlib, shutil, urllib.request, zipfile
+          root=pathlib.Path('.zfc-matrix')
+          request=json.loads((root/'request.json').read_text())
+          base=None
+          for gd, rows in request['versions'].items():
+              assert gd in ('2.2081','2.2091')
+              for edition, item in rows.items():
+                  assert edition in ('body','installer')
+                  base=pathlib.Path('free') if gd=='2.2081' else pathlib.Path('free-22091')
+                  stem='Zero-Frame-Counter-'+gd
+                  target=(base/'xm.frame_window_lab.geode') if edition=='body' else pathlib.Path('installer')/(stem+'.geode')
+                  target.parent.mkdir(exist_ok=True)
+                  payload=io.BytesIO()
+                  for i, digest in enumerate(item['parts']):
+                      part=(root/gd/edition/f'part-{i:03}.bin').read_bytes()
+                      assert hashlib.sha256(part).hexdigest()==digest
+                      payload.write(part)
+                  payload.seek(0)
+                  with target.open('wb') as dest:
+                      if 'base_plan' not in item:
+                          shutil.copyfileobj(payload,dest)
+                      else:
+                          if base is None:
+                              with urllib.request.urlopen('https://raw.githubusercontent.com/IIIYUNOIII/zfc-releases/bbcfb1e242cc8697484c366b2f2bb0b63626f18c/free/xm.frame_window_lab.geode', timeout=60) as response:
+                                  base=response.read(29263561)
+                              assert len(base)==29263560 and hashlib.sha256(base).hexdigest()=='0e9343d32dc0249139799177df3647002a513ecb32d07500925401a01983f429'
+                          for op in item['base_plan']:
+                              if 'literal' in op:
+                                  count=op['literal']
+                                  assert 0 < count <= item['size']
+                                  data=payload.read(count)
+                                  assert len(data)==count
+                              else:
+                                  offset,size=op['offset'],op['size']
+                                  assert 0 <= offset < offset+size <= len(base)
+                                  data=base[offset:offset+size]
+                              dest.write(data)
+                          assert not payload.read(1)
+                  assert target.stat().st_size==item['size']
+                  assert hashlib.sha256(target.read_bytes()).hexdigest()==item['sha256']
+                  with zipfile.ZipFile(target) as pkg:
+                      assert pkg.testzip() is None
+                      mod=json.loads(pkg.read('mod.json'))
+                      assert mod['id']=='xm.frame_window_lab' and mod['version']==item['version']
+                      assert mod['gd']=={'win':gd,'android':gd}
+                      assert mod['geode']==('5.11.1' if gd=='2.2081' else '6.0.0')
+                      for ext in ['dll','android32.so','android64.so']:
+                          assert 'xm.frame_window_lab.'+ext in pkg.namelist()
+                  if edition=='installer':
+                      with zipfile.ZipFile(target.with_suffix('.zip'),'w',compression=zipfile.ZIP_DEFLATED) as archive:
+                          archive.write(target,target.name)
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --all -- free installer
+          if [[ -d free-22091 ]]; then git add -- free-22091; fi
+          git diff --cached --quiet || git commit -m 'Store byte-verified ZFC mod and installer packages'
+          python3 - <<'PY'
+          import json, pathlib, subprocess
+          r=json.loads(pathlib.Path('.zfc-matrix/request.json').read_text())
+          commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
+          for gd, rows in r['versions'].items():
+              file='free.json' if gd=='2.2081' else 'free-22091.json'
+              folder=file.removesuffix('.json')
+              item=rows['body']
+              url=f'https://raw.githubusercontent.com/IIIYUNOIII/zfc-releases/{commit}/{folder}/xm.frame_window_lab.geode'
+              feed={'schema':1,'channel':'free','mod_id':'xm.frame_window_lab','gd':gd,'version':item['version'],'asset_commit':commit,'asset':{'url':url,'sha256':item['sha256'],'size':item['size']}}
+              pathlib.Path(file).write_text(json.dumps(feed,indent=2)+'\n')
+          PY
+          git add -- '*.json'
+          git diff --cached --quiet || git commit -m 'Update ZFC feed for each verified game version'
+          git push origin HEAD:free-preview
+      - name: Publish installer assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          for gd in $(jq -r '.versions|keys[]' .zfc-matrix/request.json); do
+            tag="zfc-free-installer-v0.0.7-gd-$gd"
+            stem="installer/Zero-Frame-Counter-$gd"
+            if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+              continue
+            fi
+            gh release create "$tag" "$stem.geode" "$stem.zip" --repo "$GITHUB_REPOSITORY" \
+              --target "$(git rev-parse HEAD)" --prerelease --latest=false --title "Zero Frame Counter · GD $gd" \
+              --notes "Geometry Dash $gd용 Windows·Android 설치기야. Geode에 추가한 뒤 게임에서 다운로드를 누르면 돼."
+          done
