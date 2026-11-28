@@ -1,0 +1,40 @@
+name: Cache the .NET 8 build kit and ZFC release base
+on:
+  push:
+    branches: [geode-build-tools-cache]
+    paths: ['.github/workflows/zfc-managed-build-kit.yml']
+permissions:
+  contents: read
+jobs:
+  tools:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prepare the installed Microsoft SDK and verified base
+        run: |
+          set -euo pipefail
+          location=$(dirname "$(readlink -f "$(command -v dotnet)")")
+          sdk=$(find "$location/sdk" -mindepth 1 -maxdepth 1 -name '8.*' -printf '%f\n' | sort -V | tail -n1)
+          test -n "$sdk"
+          mkdir -p kit/sdk kit/packs kit/host/fxr kit/shared/Microsoft.NETCore.App payload
+          cp -a "$location/dotnet" kit/
+          cp -a "$location/sdk/$sdk" kit/sdk/
+          cp -a "$location"/host/fxr/8.* kit/host/fxr/
+          cp -a "$location"/shared/Microsoft.NETCore.App/8.* kit/shared/Microsoft.NETCore.App/
+          for pack in Microsoft.NETCore.App.Ref Microsoft.AspNetCore.App.Ref Microsoft.NETCore.App.Host.linux-x64; do
+            mkdir -p "kit/packs/$pack"
+            cp -a "$location/packs/$pack"/8.* "kit/packs/$pack/"
+          done
+          cp -a "$location/packs/NETStandard.Library.Ref" kit/packs/
+          tar -czf dotnet8.tar.gz -C kit .
+          split -b 100M -d -a 2 dotnet8.tar.gz payload/dotnet-8-
+          sha256sum payload/dotnet-8-* > payload/SHA256SUMS
+          curl --fail --silent --show-error --retry 3 'https://raw.githubusercontent.com/IIIYUNOIII/zfc-releases/652372f8a8e279df16002700cc0c8b841de60e14/free/xm.frame_window_lab.geode' -o zfc-beta7.geode
+          echo '535476e50dae2478f909fd8f8e4bfe8ec30ed94781cc0ab60fbf8d0db72a4487  zfc-beta7.geode' | sha256sum -c
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zfc-dotnet-eight-and-beta7
+          path: |
+            payload/
+            zfc-beta7.geode
+          compression-level: 0
+          retention-days: 3
