@@ -1,0 +1,20 @@
+name: Verify and cache the published ZFC beta 8 package
+on:
+  push:
+    branches: [geode-build-tools-cache]
+    paths: ['.github/workflows/zfc-public-base-beta8.yml']
+permissions:
+  contents: read
+jobs:
+  cache:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          curl --fail --silent --show-error --retry 3 'https://raw.githubusercontent.com/IIIYUNOIII/zfc-releases/942e8c3f659224fda1db1e3c0636384570e71618/free/xm.frame_window_lab.geode' -o zfc-beta8.geode
+          echo '032562b3ee90301117a4569e557e4519c38b46df84bdcc07a1416cf844df6eec  zfc-beta8.geode' | sha256sum -c
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zfc-beta8-package
+          path: zfc-beta8.geode
+          compression-level: 0
+          retention-days: 2
