@@ -19,7 +19,8 @@ jobs:
           import hashlib, io, json, pathlib, shutil, urllib.request, zipfile
           root=pathlib.Path('.zfc-matrix')
           request=json.loads((root/'request.json').read_text())
-          base=None
+          published_base=None
+          verified_bases={}
           for gd, rows in request['versions'].items():
               assert gd in ('2.2081','2.2091')
               for edition, item in rows.items():
@@ -38,10 +39,14 @@ jobs:
                       if 'base_plan' not in item:
                           shutil.copyfileobj(payload,dest)
                       else:
-                          if base is None:
-                              with urllib.request.urlopen('https://raw.githubusercontent.com/IIIYUNOIII/zfc-releases/a3b3be89999340ce0c53ed01ce54704914da07b5/free/xm.frame_window_lab.geode', timeout=60) as response:
-                                  base=response.read(29292483)
-                              assert len(base)==29292482 and hashlib.sha256(base).hexdigest()=='eb57dd7f6395b4e19a015add2cfcbc1dfa604f293747df0b35ee9ac4f5dff532'
+                          if base_gd := item.get('base_gd'):
+                              base=verified_bases[base_gd]
+                          else:
+                              if published_base is None:
+                                  with urllib.request.urlopen('https://raw.githubusercontent.com/IIIYUNOIII/zfc-releases/652372f8a8e279df16002700cc0c8b841de60e14/free/xm.frame_window_lab.geode', timeout=60) as response:
+                                      published_base=response.read(27359080)
+                                  assert len(published_base)==27359079 and hashlib.sha256(published_base).hexdigest()=='535476e50dae2478f909fd8f8e4bfe8ec30ed94781cc0ab60fbf8d0db72a4487'
+                              base=published_base
                           for op in item['base_plan']:
                               if 'literal' in op:
                                   count=op['literal']
@@ -64,6 +69,8 @@ jobs:
                       assert mod['geode']==('5.11.1' if gd=='2.2081' else '6.0.0')
                       for ext in ['dll','android32.so','android64.so']:
                           assert 'xm.frame_window_lab.'+ext in pkg.namelist()
+                  if edition=='body':
+                      verified_bases[gd]=target.read_bytes()
                   if edition=='installer':
                       with zipfile.ZipFile(target.with_suffix('.zip'),'w',compression=zipfile.ZIP_DEFLATED) as archive:
                           archive.write(target,target.name)
