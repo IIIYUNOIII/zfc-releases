@@ -43,9 +43,9 @@ jobs:
                               base=verified_bases[base_gd]
                           else:
                               if published_base is None:
-                                  with urllib.request.urlopen('https://raw.githubusercontent.com/IIIYUNOIII/zfc-releases/652372f8a8e279df16002700cc0c8b841de60e14/free/xm.frame_window_lab.geode', timeout=60) as response:
-                                      published_base=response.read(27359080)
-                                  assert len(published_base)==27359079 and hashlib.sha256(published_base).hexdigest()=='535476e50dae2478f909fd8f8e4bfe8ec30ed94781cc0ab60fbf8d0db72a4487'
+                                  with urllib.request.urlopen('https://raw.githubusercontent.com/IIIYUNOIII/zfc-releases/942e8c3f659224fda1db1e3c0636384570e71618/free/xm.frame_window_lab.geode', timeout=60) as response:
+                                      published_base=response.read(26911141)
+                                  assert len(published_base)==26911140 and hashlib.sha256(published_base).hexdigest()=='032562b3ee90301117a4569e557e4519c38b46df84bdcc07a1416cf844df6eec'
                               base=published_base
                           for op in item['base_plan']:
                               if 'literal' in op:
