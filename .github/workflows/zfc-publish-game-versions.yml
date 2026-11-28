@@ -19,7 +19,7 @@ jobs:
           import hashlib, io, json, pathlib, shutil, urllib.request, zipfile
           root=pathlib.Path('.zfc-matrix')
           request=json.loads((root/'request.json').read_text())
-          published_base=None
+          published_bases={}
           verified_bases={}
           for gd, rows in request['versions'].items():
               assert gd in ('2.2081','2.2091')
@@ -42,11 +42,17 @@ jobs:
                           if base_gd := item.get('base_gd'):
                               base=verified_bases[base_gd]
                           else:
-                              if published_base is None:
-                                  with urllib.request.urlopen('https://raw.githubusercontent.com/IIIYUNOIII/zfc-releases/5e9b8715d01678b995612c2bb55c78c1aa068195/free/xm.frame_window_lab.geode', timeout=60) as response:
-                                      published_base=response.read(26953738)
-                                  assert len(published_base)==26953737 and hashlib.sha256(published_base).hexdigest()=='c486ea093f4ef93a1343326ac68b5884001897fc9f2f5891897f1e64321079bb'
-                              base=published_base
+                              if gd not in published_bases:
+                                  expected_size, expected_sha = {
+                                      '2.2081': (26964702, '7c4a63aff6cb3913fcc3cf4c1757d1caf1dd5abf96acf77e95e981f52ea94dbb'),
+                                      '2.2091': (27619310, '456ddccb1768ea7e34ab61028bdeada6e59ca39e8de4ff91bbbe9804aa4878ce'),
+                                  }[gd]
+                                  url=f'https://raw.githubusercontent.com/IIIYUNOIII/zfc-releases/6e314b9231ffbd04f5b9a3707b101bbeda94f4cd/{folder}/xm.frame_window_lab.geode'
+                                  with urllib.request.urlopen(url, timeout=60) as response:
+                                      ready=response.read(expected_size+1)
+                                  assert len(ready)==expected_size and hashlib.sha256(ready).hexdigest()==expected_sha
+                                  published_bases[gd]=ready
+                              base=published_bases[gd]
                           for op in item['base_plan']:
                               if 'literal' in op:
                                   count=op['literal']
