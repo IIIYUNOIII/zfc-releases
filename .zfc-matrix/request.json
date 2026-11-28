@@ -2,262 +2,242 @@
   "versions": {
     "2.2081": {
       "body": {
-        "version": "v0.4.33-beta.11",
-        "size": 26969342,
-        "sha256": "ec1ef7c4d9eb15ab25aaf8c7bda4c9b9af9abad84936d159220c0250c429f0ba",
+        "version": "v0.4.33-beta.12",
+        "size": 26955559,
+        "sha256": "6dc1b01eb244c5c001bdb40cabe4c898dcd7277a9a5bcbe37308685798d7f66f",
         "parts": [
-          "87748a90df913d1d767806d4919c3eb47b6f18f7c16b9f1291858664093a74c9",
-          "e0eba4863bfe6306dd3ce909017fde1c1ffe29d0a628c0ecfda58efb89fd3cd1",
-          "f6f8ad14b5b20d200b51e2e2b25f17b5f9b3e8b61d1a9dcb4677277a1296449a",
-          "fdaea8d2fc9b64807efa7ce95641af0077663d98863e201914faf7e4396493e5"
+          "40e27229c08f304d299f35f13348339b24563a0f510d39d502792ddfd2cf5092",
+          "162a3e3b996d77d750c60d94fb41da31944bd17060c6f30c11082d7d07ae1119",
+          "590af2b7bab42536dddc011d067cec8b3a72ce432606dfec161a5d091a83fba1",
+          "2f54438f0fd8bcec6a28b5324e551c4689ae08d3df63b0c8d1642989d478e8fb",
+          "e305b6e5c1864befdf8c075efb469d653080342b2747f38dfdb8dbeaa238880b"
         ],
         "base_plan": [
           {
-            "literal": 4260955
+            "literal": 4259805
           },
           {
-            "offset": 4256314,
+            "offset": 4260955,
             "size": 24567
           },
           {
             "literal": 4886
           },
           {
-            "offset": 4285767,
+            "offset": 4290408,
             "size": 2079188
           },
           {
             "literal": 81
           },
           {
-            "offset": 6365036,
+            "offset": 6369677,
             "size": 1774337
           },
           {
             "literal": 1508
           },
           {
-            "offset": 8140881,
+            "offset": 8145522,
             "size": 1510005
           },
           {
             "literal": 77
           },
           {
-            "offset": 9650963,
+            "offset": 9655604,
             "size": 2219445
           },
           {
             "literal": 79
           },
           {
-            "offset": 11870487,
+            "offset": 11875128,
             "size": 14083583
           },
           {
             "literal": 2079
           },
           {
-            "offset": 25956149,
+            "offset": 25960790,
             "size": 47015
           },
           {
             "literal": 68
           },
           {
-            "offset": 26003232,
+            "offset": 26007873,
             "size": 47670
           },
           {
             "literal": 68
           },
           {
-            "offset": 26050970,
+            "offset": 26055611,
             "size": 48162
           },
           {
             "literal": 66
           },
           {
-            "offset": 26099198,
+            "offset": 26103839,
             "size": 48489
           },
           {
             "literal": 66
           },
           {
-            "offset": 26147753,
+            "offset": 26152394,
             "size": 48747
           },
           {
             "literal": 66
           },
           {
-            "offset": 26196566,
+            "offset": 26201207,
             "size": 48994
           },
           {
             "literal": 66
           },
           {
-            "offset": 26245626,
+            "offset": 26250267,
             "size": 49128
           },
           {
-            "literal": 6230
-          },
-          {
-            "offset": 26300984,
-            "size": 370454
-          },
-          {
-            "literal": 5603
-          },
-          {
-            "offset": 26677041,
-            "size": 187958
-          },
-          {
-            "literal": 5002
-          },
-          {
-            "offset": 26870001,
-            "size": 89026
-          },
-          {
-            "literal": 5674
+            "literal": 657314
           }
+        ]
+      },
+      "installer": {
+        "version": "v0.0.8",
+        "size": 2980745,
+        "sha256": "1b645a114952116383857d2b9c28c544bea187c977898121cc24be21ad8c7e42",
+        "parts": [
+          "8573040d40d2a6e3cc55aeaa6fb5e4d2d392e3e267fb9230fee6005095557f8f",
+          "619d8d62f520bb348e7770f093b04e1bb328995b9e43c65f1bf22ded3671c169",
+          "e507c6a1c46c7878e5cdd2ac9a0cc25144b1e6a734ce8affd7f4775f4fde3a93"
         ]
       }
     },
     "2.2091": {
       "body": {
-        "version": "v0.4.33-beta.11",
-        "size": 27622486,
-        "sha256": "a89c63279d891081207ee33e06d24a154f98a52466f932bad52ada65b29a084e",
+        "version": "v0.4.33-beta.12",
+        "size": 27609386,
+        "sha256": "0becc98da16e04bfeea8259ec4640c3fd22129b5abaf939bd14068d83c5cd013",
         "parts": [
-          "6a74bc90b6a64ea4cb91ea38c5757469922e2405930d53f079902eb4d2c73d38",
-          "e5b19bff1a15c94286f6fb8e9cacd16cb80cdfa61903a16904bd5db7b6d80e28",
-          "39cd13b6fdd2a201f63b83265e440eca5a75e845a78094e6c374cc704e38351b",
-          "d79284386c92c1bb5880a2cb1419a09a2e4a30cd39b2ed9b578cfae4688ae1ca",
-          "36e5256fc729f990702c8d3beb8496e00568143e8fbbdb7851a4f28faf949da2"
+          "eca175d2154857d04273dfe223feafc44b8331e563aaeeebb71e7c1f710caf56",
+          "7b19da0c5273cbcdf4feb69eb1c9b96118858ae7b840b4911c5a506d8470f5d9",
+          "838bd24cfff880d00e4828c4740decbe97f64b8239bb3ee16e0bb56cb24d94f4",
+          "3b7f3db1c18728af783a582338987d161d2522115f6cc0c0f11b4a667e1d3e09",
+          "6b4adc78311bfdbb0aab447fcbadd374404e8066866f6f6e219240f0a4d99f95"
         ],
         "base_plan": [
           {
-            "literal": 4914099
+            "literal": 4913632
           },
           {
-            "offset": 4910924,
+            "offset": 4914099,
             "size": 24567
           },
           {
             "literal": 4886
           },
           {
-            "offset": 4940377,
+            "offset": 4943552,
             "size": 2079188
           },
           {
             "literal": 81
           },
           {
-            "offset": 7019646,
+            "offset": 7022821,
             "size": 1774337
           },
           {
             "literal": 1508
           },
           {
-            "offset": 8795491,
+            "offset": 8798666,
             "size": 1510005
           },
           {
             "literal": 77
           },
           {
-            "offset": 10305573,
+            "offset": 10308748,
             "size": 2219445
           },
           {
             "literal": 79
           },
           {
-            "offset": 12525097,
+            "offset": 12528272,
             "size": 14083583
           },
           {
             "literal": 2079
           },
           {
-            "offset": 26610759,
+            "offset": 26613934,
             "size": 47015
           },
           {
             "literal": 68
           },
           {
-            "offset": 26657842,
+            "offset": 26661017,
             "size": 47670
           },
           {
             "literal": 68
           },
           {
-            "offset": 26705580,
+            "offset": 26708755,
             "size": 48162
           },
           {
             "literal": 66
           },
           {
-            "offset": 26753808,
+            "offset": 26756983,
             "size": 48489
           },
           {
             "literal": 66
           },
           {
-            "offset": 26802363,
+            "offset": 26805538,
             "size": 48747
           },
           {
             "literal": 66
           },
           {
-            "offset": 26851176,
+            "offset": 26854351,
             "size": 48994
           },
           {
             "literal": 66
           },
           {
-            "offset": 26900236,
+            "offset": 26903411,
             "size": 49128
           },
           {
-            "literal": 6230
-          },
-          {
-            "offset": 26955594,
-            "size": 370454
-          },
-          {
-            "literal": 5603
-          },
-          {
-            "offset": 27331651,
-            "size": 187958
-          },
-          {
-            "literal": 5002
-          },
-          {
-            "offset": 27524611,
-            "size": 89026
-          },
-          {
-            "literal": 5674
+            "literal": 657314
           }
+        ]
+      },
+      "installer": {
+        "version": "v0.0.8",
+        "size": 3678183,
+        "sha256": "42046bce096ae1c09dfacf4a800d8cef0591bc76c309713efb8a7f52c78a05f8",
+        "parts": [
+          "7cd52203794625106b9737362fdc0dffe21796081b6353f4992e211ccf09f0c0",
+          "7b4bbe78fa1b1859b71e7c23ba8c869071e77fcf1c489a8600b215679b264bd6",
+          "39b91e3efc35d5b05f91f9196712a8d91d4eebd42a35590b40caf28fcfd5af4c",
+          "1d296288eefba71bf7f64a355029fae4138ce6db5039d7e10aee3d8dbf109c99"
         ]
       }
     }

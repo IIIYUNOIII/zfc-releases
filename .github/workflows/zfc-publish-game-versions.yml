@@ -44,10 +44,10 @@ jobs:
                           else:
                               if gd not in published_bases:
                                   expected_size, expected_sha = {
-                                      '2.2081': (26964702, '7c4a63aff6cb3913fcc3cf4c1757d1caf1dd5abf96acf77e95e981f52ea94dbb'),
-                                      '2.2091': (27619310, '456ddccb1768ea7e34ab61028bdeada6e59ca39e8de4ff91bbbe9804aa4878ce'),
+                                      '2.2081': (26969342, 'ec1ef7c4d9eb15ab25aaf8c7bda4c9b9af9abad84936d159220c0250c429f0ba'),
+                                      '2.2091': (27622486, 'a89c63279d891081207ee33e06d24a154f98a52466f932bad52ada65b29a084e'),
                                   }[gd]
-                                  url=f'https://raw.githubusercontent.com/IIIYUNOIII/zfc-releases/6e314b9231ffbd04f5b9a3707b101bbeda94f4cd/{folder}/xm.frame_window_lab.geode'
+                                  url=f'https://raw.githubusercontent.com/IIIYUNOIII/zfc-releases/8c3d2bc0693153bb6e71d47093154da170a802ba/{folder}/xm.frame_window_lab.geode'
                                   with urllib.request.urlopen(url, timeout=60) as response:
                                       ready=response.read(expected_size+1)
                                   assert len(ready)==expected_size and hashlib.sha256(ready).hexdigest()==expected_sha
@@ -107,7 +107,8 @@ jobs:
         run: |
           set -euo pipefail
           for gd in $(jq -r '.versions|to_entries[]|select(.value.installer)|.key' .zfc-matrix/request.json); do
-            tag="zfc-free-installer-v0.0.7-gd-$gd"
+            edition=$(jq -r --arg gd "$gd" '.versions[$gd].installer.version' .zfc-matrix/request.json)
+            tag="zfc-free-installer-$edition-gd-$gd"
             stem="installer/Zero-Frame-Counter-$gd"
             if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
               continue
