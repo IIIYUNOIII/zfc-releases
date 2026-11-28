@@ -39,9 +39,9 @@ jobs:
                           shutil.copyfileobj(payload,dest)
                       else:
                           if base is None:
-                              with urllib.request.urlopen('https://raw.githubusercontent.com/IIIYUNOIII/zfc-releases/bbcfb1e242cc8697484c366b2f2bb0b63626f18c/free/xm.frame_window_lab.geode', timeout=60) as response:
-                                  base=response.read(29263561)
-                              assert len(base)==29263560 and hashlib.sha256(base).hexdigest()=='0e9343d32dc0249139799177df3647002a513ecb32d07500925401a01983f429'
+                              with urllib.request.urlopen('https://raw.githubusercontent.com/IIIYUNOIII/zfc-releases/a3b3be89999340ce0c53ed01ce54704914da07b5/free/xm.frame_window_lab.geode', timeout=60) as response:
+                                  base=response.read(29292483)
+                              assert len(base)==29292482 and hashlib.sha256(base).hexdigest()=='eb57dd7f6395b4e19a015add2cfcbc1dfa604f293747df0b35ee9ac4f5dff532'
                           for op in item['base_plan']:
                               if 'literal' in op:
                                   count=op['literal']
@@ -93,7 +93,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          for gd in $(jq -r '.versions|keys[]' .zfc-matrix/request.json); do
+          for gd in $(jq -r '.versions|to_entries[]|select(.value.installer)|.key' .zfc-matrix/request.json); do
             tag="zfc-free-installer-v0.0.7-gd-$gd"
             stem="installer/Zero-Frame-Counter-$gd"
             if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
