@@ -1,0 +1,103 @@
+name: Cache Geode build tools and published runtime assets
+on:
+  push:
+    branches: [geode-build-tools-cache]
+permissions:
+  contents: read
+jobs:
+  sdk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Geode 5.11.1 dependencies
+        run: |
+          set -eu -o pipefail
+          mkdir -p cache
+          fetch() {
+            mkdir -p "cache/$1"
+            curl -fsSL --retry 3 "https://codeload.github.com/$2/tar.gz/$3" | tar -xz --strip-components=1 -C "cache/$1"
+          }
+          fetch sdk geode-sdk/geode refs/tags/v5.11.1 &
+          fetch bindings geode-sdk/bindings f8aec5d1f3df76d840dfd2609f02cef30dc6efdf &
+          fetch Broma geode-sdk/Broma 13a271c &
+          fetch result geode-sdk/result refs/tags/v1.4.1 &
+          fetch json geode-sdk/json refs/tags/v3.3.1 &
+          fetch nontype_functional geode-sdk/nontype_functional 6d1d08c &
+          fetch fmt fmtlib/fmt refs/tags/12.2.0 &
+          fetch asp2 dankmeme01/asp2 ecea33b &
+          fetch arc dankmeme01/arc refs/tags/v1.5.11 &
+          fetch TulipHook geode-sdk/TulipHook refs/tags/v3.1.15 &
+          for p in $(jobs -p); do wait "$p"; done
+          mkdir -p cache/sdk/bin/5.11.1
+          for target in win android64 android32; do
+            curl -fsSL --retry 3 "https://github.com/geode-sdk/geode/releases/download/v5.11.1/geode-v5.11.1-$target.zip" -o "$target.zip"
+            unzip -oj "$target.zip" '*.lib' '*.so' -d cache/sdk/bin/5.11.1 || true
+          done
+          cmake -S cache/bindings/codegen -B build -G Ninja -DCMAKE_BUILD_TYPE=Release \
+            -DCPM_Broma_SOURCE="$PWD/cache/Broma" -DCPM_json_SOURCE="$PWD/cache/json" -DCPM_fmt_SOURCE="$PWD/cache/fmt" -DCPM_result_SOURCE="$PWD/cache/result"
+          cmake --build build -j 4
+          cp build/Codegen cache/Codegen
+          test -f cache/sdk/bin/5.11.1/Geode.lib
+          tar -czf sdk5.tar.gz cache
+      - uses: actions/upload-artifact@v4
+        with:
+          name: geode-sdk5-build-kit
+          path: sdk5.tar.gz
+          compression-level: 0
+          retention-days: 2
+  base:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch published beta.6 package
+        run: |
+          curl -fsSL --retry 3 'https://raw.githubusercontent.com/IIIYUNOIII/zfc-releases/a3b3be89999340ce0c53ed01ce54704914da07b5/free/xm.frame_window_lab.geode' -o baseline.geode
+          echo 'eb57dd7f6395b4e19a015add2cfcbc1dfa604f293747df0b35ee9ac4f5dff532  baseline.geode' | sha256sum -c -
+      - uses: actions/upload-artifact@v4
+        with:
+          name: geode-published-runtime
+          path: baseline.geode
+          compression-level: 0
+          retention-days: 2
+  cross:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [windows, android]
+    steps:
+      - name: Cache Geode cross-toolchain root
+        run: |
+          set -eu -o pipefail
+          plat='${{ matrix.platform }}'
+          img="ghcr.io/geode-sdk/tools:$plat-latest"
+          docker pull "$img"
+          cid=$(docker create "$img" /bin/true)
+          mkdir -p pieces
+          docker export "$cid" | zstd -T3 -2 | split -a2 -d -b 112M - pieces/part-
+          sha256sum pieces/* > SHA256SUMS
+          du -sh pieces
+      - uses: actions/upload-artifact@v4
+        with: {name: 'cross-${{ matrix.platform }}-checksums', path: SHA256SUMS, retention-days: 2}
+      - uses: actions/upload-artifact@v4
+        if: hashFiles('pieces/part-00') != ''
+        with: {name: 'cross-${{ matrix.platform }}-00', path: pieces/part-00, retention-days: 2, compression-level: 0}
+      - uses: actions/upload-artifact@v4
+        if: hashFiles('pieces/part-01') != ''
+        with: {name: 'cross-${{ matrix.platform }}-01', path: pieces/part-01, retention-days: 2, compression-level: 0}
+      - uses: actions/upload-artifact@v4
+        if: hashFiles('pieces/part-02') != ''
+        with: {name: 'cross-${{ matrix.platform }}-02', path: pieces/part-02, retention-days: 2, compression-level: 0}
+      - uses: actions/upload-artifact@v4
+        if: hashFiles('pieces/part-03') != ''
+        with: {name: 'cross-${{ matrix.platform }}-03', path: pieces/part-03, retention-days: 2, compression-level: 0}
+      - uses: actions/upload-artifact@v4
+        if: hashFiles('pieces/part-04') != ''
+        with: {name: 'cross-${{ matrix.platform }}-04', path: pieces/part-04, retention-days: 2, compression-level: 0}
+      - uses: actions/upload-artifact@v4
+        if: hashFiles('pieces/part-05') != ''
+        with: {name: 'cross-${{ matrix.platform }}-05', path: pieces/part-05, retention-days: 2, compression-level: 0}
+      - uses: actions/upload-artifact@v4
+        if: hashFiles('pieces/part-06') != ''
+        with: {name: 'cross-${{ matrix.platform }}-06', path: pieces/part-06, retention-days: 2, compression-level: 0}
+      - uses: actions/upload-artifact@v4
+        if: hashFiles('pieces/part-07') != ''
+        with: {name: 'cross-${{ matrix.platform }}-07', path: pieces/part-07, retention-days: 2, compression-level: 0}
